@@ -2,22 +2,6 @@
 
 using namespace std;
 
-namespace debug {
-  #define vi vector<int>
-
-  void vector_int(vi a) {
-    for (auto &_ : a) cout << _ << " ";
-    cout << endl;
-  }
-
-  void vector_pair(vector<pair<int, int>> _arr) {
-    for (auto _ : _arr) cout <<"{" << _.first << ", " << _.second << "} ";
-    cout << endl;
-  }
-
-  #undef vi
-} // namespace debug
-
 namespace suffix_array {
   #define vi vector<int>
   #define pi pair<int, int>
@@ -42,7 +26,7 @@ namespace suffix_array {
     vi sa(n), rank(n);
     vector <pair<pair<int, int>, int>> keys(n);
     for (int i = 0; i < n; ++i) {
-      keys[i].first.first = int(_s[i] - 'A');
+      keys[i].first.first = int(_s[i] - '0');
       keys[i].first.second = 0;
       keys[i].second = i;
     }
@@ -65,17 +49,6 @@ namespace suffix_array {
     for (int i = 0; i < n; ++i) { sa[i] = keys[i].second; }
     return sa;
   }
-
-  vi build_lcp(const string &_s, bool _have_sa = false, vi _sa = vi()) {
-    if (!_have_sa) { _sa = build_sa(_s); }
-    int n = _s.size();
-    vi lcp;
-    lcp.resize(n);
-    return lcp;
-  }
-
-  #undef vi
-  #undef pi
 } // namespace suffix_array
 
 int main() {
