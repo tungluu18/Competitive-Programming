@@ -71,6 +71,23 @@ namespace suffix_array {
         }
         return _sa[l];
     }
+    
+    // kasai algorithm
+    vi build_lcp(const string &_s, const vi &_sa) {  
+        const int n = _s.length();
+        vi lcp(n, 0), inv_sa(n);
+        for (int i = 0; i < n; ++i) { inv_sa[_sa[i]] = i; }
+        int k = 0;
+        for (int i = 0; i < n; ++i) {
+            int j = inv_sa[i];
+            if (j == n-1) { lcp[j] = 0; }
+            j = _sa[j+1];
+            while (k < min(n-i, n-j) && _s[i+k] == _s[j+k]) { ++k; }
+            lcp[inv_sa[i]] = k;
+            if (k > 0) { k--; }
+        }
+        return lcp;
+    }
 } // namespace suffix_array
 
 int main() {
@@ -80,4 +97,7 @@ int main() {
 
     string pat = "anana";
     cout << suffix_array::pattern_search(s, sa, pat) << endl;
+    
+    vector<int> lcp = suffix_array::build_lcp(s, sa);
+    for (int i = 0; i < lcp.size(); ++i) { cout << lcp[i] << endl; }    
 }
